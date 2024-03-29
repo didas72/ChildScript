@@ -18,7 +18,7 @@ DBG_BIN=$(DIR_BUILD)/bin/dbg
 SRCS=$(shell find $(DIR_SRC)/ -type f -name '*.c')
 LIB_FLAGS=$(patsubst %,-l%,$(LIBS))
 
-RUN_ARGS=test.chs
+RUN_ARGS=examples/hello.chs
 
 
 .PHONY: all build run dbg val clean

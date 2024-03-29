@@ -2,6 +2,7 @@
 
 #pragma once
 
+#define ERR_SRC_FILE "Couldn't open file '%s'.\n"
 #define ERR_INSTRUCTION "Joe didn't understand the provided instruction. Are you using the right arguments?\n"
 #define ERR_COLOR "Joe didn't understand the provided color. You can only use capital letters.\n"
 #define ERR_NUM "Joe didn't understand the provided number. Are you sure you didn't include any *funny* characters?\n"

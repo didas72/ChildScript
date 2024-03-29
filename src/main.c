@@ -23,10 +23,15 @@ int main(int argc, char *argv[])
 	}
 
 	FILE* src_file = fopen(argv[1], "r");
+	if (!src_file)
+	{
+		printf(ERR_SRC_FILE, argv[1]);
+		return 1;
+	}
 
 	size_t line_count;
 	char **lines = load_src_lines(src_file, &line_count);
-	printf("Found %ld lines.\n", line_count);
+	//printf("Found %ld lines.\n", line_count);
 	fclose(src_file);
 
 	interpret_source(lines, line_count);
@@ -114,7 +119,7 @@ char interpret_source(char **lines, size_t line_count)
 
 char interpret_line(char *line, state_t *state)
 {
-	printf("Running line '%s'\n", line);
+	//printf("Running line '%s'\n", line);
 	state->program_counter++;
 
 	if (line_is_empty(line) || line_is_comment(line))
@@ -126,11 +131,11 @@ char interpret_line(char *line, state_t *state)
 
 	int color;
 
-	printf("Tokens: %p %p %p\n", first, second, last);
+	//printf("Tokens: %p %p %p\n", first, second, last);
 
 	ERR_INSTR_IF(last || !first);
 
-	printf("Have first '%s'\n", first);
+	//printf("Have first '%s'\n", first);
 
 	if (str_is_label(first))
 	{
@@ -177,8 +182,8 @@ char interpret_line(char *line, state_t *state)
 		ERR_INSTR_IF(!second);
 		
 		ERR_COLOR_IF(second);
-		uint8_t tmp = state->colors[COLOR_R];
-		state->colors[COLOR_R] = state->mem[state->colors[COLOR_Y]];
+		uint8_t tmp = state->colors[color];
+		state->colors[color] = state->mem[state->colors[COLOR_Y]];
 		state->mem[state->colors[COLOR_Y]] = tmp;
 	}
 	else if (!strcmp(first, "A>V"))
@@ -187,6 +192,7 @@ char interpret_line(char *line, state_t *state)
 		
 		ERR_COLOR_IF(second);
 		state->colors[COLOR_R] = (state->colors[COLOR_R] + state->colors[color]) & 0xFF;
+		state->colors[color] = 0;
 	}
 	else if (!strcmp(first, "="))
 	{
@@ -206,7 +212,7 @@ char interpret_line(char *line, state_t *state)
 	{
 		ERR_INSTR_IF(second);
 		
-		putchar(state->colors[COLOR_R]);
+		printf("'%c' (%d)\n", state->colors[COLOR_R], state->colors[COLOR_R]);
 	}
 	else if (!strcmp(first, "O?"))
 	{
