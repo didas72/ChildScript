@@ -58,5 +58,6 @@ V O
 
 //Add 3 to 'l' to make 'o' and store at @4
 V OOO
-papa
+= B
 <=> B
+papa
