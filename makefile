@@ -12,8 +12,8 @@ DIR_BUILD=build
 
 LIBS=
 
-OUT_BIN=$(DIR_BUILD)/bin/main
-DBG_BIN=$(DIR_BUILD)/bin/dbg
+OUT_BIN=$(DIR_BUILD)/bin/child_script
+DBG_BIN=$(DIR_BUILD)/bin/child_script_dbg
 
 SRCS=$(shell find $(DIR_SRC)/ -type f -name '*.c')
 LIB_FLAGS=$(patsubst %,-l%,$(LIBS))
