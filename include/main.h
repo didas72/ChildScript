@@ -30,7 +30,7 @@ typedef struct
 
 char **load_src_lines(FILE *file, size_t *line_count);
 char interpret_source(char **lines, size_t line_count);
-char interpret_line(char *line, state_t *state);
+char interpret_line(char **lines, size_t line_count, state_t *state);
 void print_state(state_t *state);
 
 char line_is_empty(char *str);

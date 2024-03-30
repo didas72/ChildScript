@@ -102,7 +102,7 @@ char interpret_source(char **lines, size_t line_count)
 
 	while (state->program_counter < line_count)
 	{
-		if (interpret_line(lines[state->program_counter], state))
+		if (interpret_line(lines, line_count, state))
 		{
 			printf("Joe got confused and threw a tantrum! Check line %ld.\n", state->program_counter);
 			break;
@@ -117,8 +117,9 @@ char interpret_source(char **lines, size_t line_count)
 	return 0;
 }
 
-char interpret_line(char *line, state_t *state)
+char interpret_line(char **lines, size_t line_count, state_t *state)
 {
+	char *line = lines[state->program_counter];
 	//printf("Running line '%s'\n", line);
 	state->program_counter++;
 
@@ -222,9 +223,34 @@ char interpret_line(char *line, state_t *state)
 	{
 		ERR_INSTR_IF(!second);
 
-		//Jump to label if not zero
 		ERR_LABEL_NVAL_IF(second);
-		//TODO: Label searching
+
+		char found = 0;
+		for (size_t i = state->program_counter; i < line_count; i++)
+		{
+			if (str_is_label(second) && !strcmp(second, lines[i - 1]))
+			{
+				state->program_counter = i;
+				found = 1;
+				break;
+			}
+		}
+		if (found) return 0;
+		for (size_t i = state->program_counter; i >= 1; i--)
+		{
+			if (str_is_label(second) && !strcmp(second, lines[i - 1]))
+			{
+				state->program_counter = i;
+				found = 1;
+				break;
+			}
+		}
+		
+		if (!found)
+		{
+			printf(ERR_LABEL_NFOUND);
+			return 1;
+		}
 	}
 	else
 	{
