@@ -16,5 +16,6 @@ This language, like a lot of esoteric languages, is more easily understood by lo
 
 ## Compilation
 
+In order to compile the interpreter, you will need to have `gcc` installed.
 To compile the interpreter, simply clone the repository to a location of your choosing and run `make`. The produced binary will be put in `build/bin`.
 You may choose to run the provided `hello.chs` test script with `make run` or call the interpreter with a different source file.
