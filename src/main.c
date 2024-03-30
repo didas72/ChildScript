@@ -173,6 +173,10 @@ char interpret_line(char *line, state_t *state)
 		ERR_INSTR_IF(!second);
 		
 		ERR_COLOR_IF(second);
+
+		if (color == COLOR_R)
+			return 0;
+
 		uint8_t tmp = state->colors[COLOR_R];
 		state->colors[COLOR_R] = state->colors[color];
 		state->colors[color] = tmp;
