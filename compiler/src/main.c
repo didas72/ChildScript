@@ -8,6 +8,8 @@
 #include "errs.h"
 #include "main.h"
 
+#include "embed/base.asm.h"
+
 
 int main(int argc, char *argv[])
 {
@@ -37,13 +39,16 @@ int main(int argc, char *argv[])
 int compile_source(char **lines, size_t line_count)
 {
 	size_t line = 0;
-	FILE* out = fopen("compiles_chs", "w");
+	FILE* out = fopen("transpiled_chs.asm", "w");
+	fwrite(embed_base_asm, 1, embed_base_asm_len, out);
 
 	for (; line < line_count; line++)
 	{
 		if (compile_line(lines[line], line, out))
 			goto compile_source_fail;
 	}
+
+	fprintf(out, "\n; Exit cleanly\n\tcall exit\n");
 
 	fclose(out);
 	return 0;

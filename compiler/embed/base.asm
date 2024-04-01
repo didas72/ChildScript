@@ -43,6 +43,8 @@ exit:
 	mov rax, 60
 	xor rdi, rdi
 	syscall
+exit_fail_loop:
+	jmp exit_fail_loop
 
 _start:
 chs_setup:
@@ -53,3 +55,4 @@ chs_setup:
 	mov r15, r11
 
 ; ===Actual code below===
+chs_begin:
